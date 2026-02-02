@@ -9,7 +9,7 @@ public class DoublyLinkedList<E> implements List<E> {
     private static class Node<E> {
         private final E data;
         private Node<E> next;
-        private final Node<E> prev;
+        private Node<E> prev;
 
         public Node(E e, Node<E> p, Node<E> n) {
             data = e;
@@ -42,36 +42,63 @@ public class DoublyLinkedList<E> implements List<E> {
     }
 
     private void addBetween(E e, Node<E> pred, Node<E> succ) {
-        // TODO
+        Node<E> n = new Node<>(e, pred, succ);
+        pred.next = n;
+        succ.prev = n;
     }
 
     @Override
     public int size() {
-        // TODO
-        return 0;
+        int i = 0;
+        //skips head node
+        Node<E> curr = head.next;
+        while (curr != null) {
+            curr = curr.getNext();
+            i++;
+        }
+        //return i-1 because it goes to tail and tail shouldn't be included in size
+        return i-1;
     }
 
     @Override
     public boolean isEmpty() {
         // TODO
-        return false;
+        return head.next == tail && tail.prev == head;
     }
 
     @Override
     public E get(int i) {
+        Node<E> curr = head;
+        for (int j = 0; j <= i; j++) {
+            curr = curr.getNext();
+        }
         // TODO
-        return null;
+        return curr.getData();
     }
 
     @Override
     public void add(int i, E e) {
-        // TODO
+        Node<E> curr = head;
+        for (int j = 0; j < i; j++) {
+            curr = curr.next;
+        }
+        Node<E> nodeAfter = curr.next;
+        Node<E> n = new Node<>(e, curr, nodeAfter);
+        nodeAfter.prev = n;
+        curr.next = n;
     }
 
     @Override
     public E remove(int i) {
         // TODO
-        return null;
+        Node<E> curr = head;
+        for (int j = 0; j <= i; j++) {
+            curr = curr.getNext();
+        }
+        E e = curr.getData();
+        curr.getPrev().next = curr.getNext();
+        curr.getNext().prev = curr.getPrev();
+        return e;
     }
 
     private class DoublyLinkedListIterator<E> implements Iterator<E> {
@@ -109,28 +136,47 @@ public class DoublyLinkedList<E> implements List<E> {
 
     public E last() {
         // TODO
-        return null;
+        if (this.isEmpty()) {
+            return null;
+        }
+        return tail.getPrev().getData();
     }
 
     @Override
     public E removeFirst() {
         // TODO
-        return null;
+        E e = head.getNext().getData();
+        Node<E> next = head.getNext().getNext();
+        head.next = next;
+        next.prev = head;
+        return e;
     }
 
     @Override
     public E removeLast() {
-        // TODO
-        return null;
+        if (this.isEmpty()) {
+            return null;
+        }
+        E e = tail.getPrev().getData();
+        tail.prev = tail.getPrev().getPrev();
+        return e;
     }
 
     @Override
     public void addLast(E e) {
+        Node<E> temp = tail.getPrev();
+        Node<E> n = new Node<>(e, temp, tail);
+        temp.next = n;
+        tail.prev = n;
         // TODO
     }
 
     @Override
     public void addFirst(E e) {
+        Node<E> temp = head.getNext();
+        Node<E> n = new Node<>(e, head, temp);
+        head.next = n;
+        temp.prev = n;
         // TODO
     }
 
