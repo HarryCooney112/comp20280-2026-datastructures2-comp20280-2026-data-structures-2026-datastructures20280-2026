@@ -8,7 +8,7 @@ public class SinglyLinkedList<E> implements List<E> {
 
     private static class Node<E> {
 
-        private final E element;            // reference to the element stored at this node
+        private E element;            // reference to the element stored at this node
 
         /**
          * A reference to the subsequent node in the list
@@ -117,6 +117,37 @@ public class SinglyLinkedList<E> implements List<E> {
         size++;
     }
 
+    public SinglyLinkedList<E> recursiveCopy() {
+        SinglyLinkedList<E> btOut = new SinglyLinkedList<>();
+        btOut.head = new Node<>(null, null);
+        recCopyHelper(btOut.head, head);
+        return btOut;
+    }
+    private void recCopyHelper(Node<E> copyBt, Node<E> curr) {
+        if (curr.next == null) {
+            copyBt.element = curr.getElement();
+            return;
+        }
+        copyBt.element = curr.getElement();
+        copyBt.next = new Node<>(null, null);
+        recCopyHelper(copyBt.next, curr.next);
+    }
+    public void reverse() {
+        Node<E> next = head.next;
+        Node<E> tmp = head;
+        Node<E> curr = head;
+        reverseHelper(curr, next);
+        tmp.next = null;
+    }
+    private void reverseHelper(Node<E> curr, Node<E> next) {
+        if (next == null) {
+            head = curr;
+            return;
+        }
+        Node<E> tmp = next.next;
+        next.next = curr;
+        reverseHelper(next, tmp);
+    }
     @Override
     public void addLast(E e) {
         Node<E> curr = head;
@@ -212,10 +243,12 @@ public class SinglyLinkedList<E> implements List<E> {
         //LinkedList<Integer> ll = new LinkedList<Integer>();
 
         ll.addFirst(1);
-        ll.addFirst(0);
-        ll.addFirst(0);
-        ll.addFirst(0);
-        System.out.println(ll.size());
+        ll.addFirst(2);
+        ll.addFirst(3);
+        ll.addFirst(4);
+        System.out.println(ll);
+        var bt2 = ll.recursiveCopy();
+        System.out.println(bt2);
         //ll.removeFirst();
         //System.out.println("I accept your apology");
         //ll.add(3, 2);

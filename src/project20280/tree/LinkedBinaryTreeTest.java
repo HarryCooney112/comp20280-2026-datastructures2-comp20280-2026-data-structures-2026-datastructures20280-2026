@@ -18,7 +18,6 @@ class LinkedBinaryTreeTest {
         bt.remove(bt.root());
         assertEquals(1, bt.size());
     }
-
     @Test
     void testAddRoot() {
         LinkedBinaryTree<Integer> bt = new LinkedBinaryTree<Integer>();

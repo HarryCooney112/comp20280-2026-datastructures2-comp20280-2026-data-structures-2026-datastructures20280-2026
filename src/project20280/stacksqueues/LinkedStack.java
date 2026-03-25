@@ -5,13 +5,21 @@ import project20280.list.DoublyLinkedList;
 
 public class LinkedStack<E> implements Stack<E> {
 
-    DoublyLinkedList<E> ll;
+    private DoublyLinkedList<E> ll;
 
     public static void main(String[] args) {
+        LinkedStack<Integer> s = new LinkedStack<>();
+        for (int i = 0; i < 10; ++i)
+            s.push(i);
+            System.out.println(s);
+        for (int i = 0; i < 10; ++i) {
+            s.pop();
+            System.out.println(s);
+        }
     }
 
     public LinkedStack() {
-        // TODO
+        this.ll = new DoublyLinkedList<E>();
     }
 
     @Override
@@ -26,19 +34,17 @@ public class LinkedStack<E> implements Stack<E> {
 
     @Override
     public void push(E e) {
-        // TODO
+        ll.addFirst(e);
     }
 
     @Override
     public E top() {
-        // TODO
-        return null;
+        return ll.first();
     }
 
     @Override
     public E pop() {
-        // TODO
-        return null;
+        return ll.removeFirst();
     }
 
     public String toString() {

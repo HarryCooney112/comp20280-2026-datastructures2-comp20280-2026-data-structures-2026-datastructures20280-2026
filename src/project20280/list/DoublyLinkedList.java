@@ -159,6 +159,7 @@ public class DoublyLinkedList<E> implements List<E> {
         }
         E e = tail.getPrev().getData();
         tail.prev = tail.getPrev().getPrev();
+        tail.getPrev().next = tail;
         return e;
     }
 

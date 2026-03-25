@@ -40,6 +40,10 @@ public class CircularlyLinkedList<E> implements List<E> {
         return size == 0;
     }
 
+    public E first() {
+        return this.tail.getNext().getData();
+    }
+
     @Override
     public E get(int i) {
         if (i > size - 1) {

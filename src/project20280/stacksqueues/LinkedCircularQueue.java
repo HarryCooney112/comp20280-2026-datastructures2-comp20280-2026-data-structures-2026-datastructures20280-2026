@@ -1,6 +1,7 @@
 package project20280.stacksqueues;
 
 import project20280.interfaces.Queue;
+import project20280.list.CircularlyLinkedList;
 
 /**
  * Realization of a circular FIFO queue as an adaptation of a
@@ -17,34 +18,32 @@ public class LinkedCircularQueue<E> implements Queue<E> {
 
     }
 
+    private CircularlyLinkedList<E> ll;
     @Override
     public int size() {
-        // TODO Auto-generated method stub
-        return 0;
+        return ll.size();
     }
 
     @Override
     public boolean isEmpty() {
-        // TODO Auto-generated method stub
-        return false;
+        return ll.isEmpty();
     }
 
     @Override
     public void enqueue(E e) {
+        ll.addFirst(e);
         // TODO Auto-generated method stub
-
     }
 
     @Override
     public E first() {
-        // TODO Auto-generated method stub
-        return null;
+        return ll.first();
     }
 
     @Override
     public E dequeue() {
         // TODO Auto-generated method stub
-        return null;
+        return ll.removeLast();
     }
 
 }

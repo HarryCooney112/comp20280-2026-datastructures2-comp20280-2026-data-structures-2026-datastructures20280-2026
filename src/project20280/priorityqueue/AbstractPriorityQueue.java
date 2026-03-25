@@ -3,6 +3,7 @@ package project20280.priorityqueue;
 
 import project20280.interfaces.Entry;
 import project20280.interfaces.PriorityQueue;
+import project20280.tree.DefaultComparator;
 
 import java.util.Comparator;
 

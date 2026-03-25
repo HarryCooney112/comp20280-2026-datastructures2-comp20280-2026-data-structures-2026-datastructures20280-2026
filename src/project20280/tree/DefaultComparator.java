@@ -1,4 +1,4 @@
-package project20280.priorityqueue;
+package project20280.tree;
 
 import java.util.Comparator;
 

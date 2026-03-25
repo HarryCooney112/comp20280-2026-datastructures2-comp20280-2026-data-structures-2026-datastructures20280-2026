@@ -1,44 +1,26 @@
 package project20280.stacksqueues;
-
 import project20280.interfaces.Stack;
 
 public class ArrayStack<E> implements Stack<E> {
 
-    /**
-     * Default array capacity.
-     */
-    public static final int CAPACITY = 100;   // default array capacity
-
-    /**
-     * Generic array used for storage of stack elements.
-     */
+    public static int CAPACITY = 100;   // default array capacity
     private E[] data;                        // generic array used for storage
 
-    /**
-     * Index of the top element of the stack in the array.
-     */
-    private final int t = -1;                      // index of the top element in stack
+    public int t = -1;                      // index of the top element in stack
 
-    /**
-     * Constructs an empty stack using the default array capacity.
-     */
     public ArrayStack() {
         this(CAPACITY);
     }  // constructs stack with default capacity
 
-    /**
-     * Constructs and empty stack with the given array capacity.
-     *
-     * @param capacity length of the underlying array
+    /*
+     * Overload to allow stack size to change
      */
     @SuppressWarnings({"unchecked"})
     public ArrayStack(int capacity) {        // constructs stack with given capacity
-        // TODO
+        data = (E[]) new Object[capacity];
     }
 
     /**
-     * Returns the number of elements in the stack.
-     *
      * @return number of elements in the stack
      */
     @Override
@@ -47,8 +29,6 @@ public class ArrayStack<E> implements Stack<E> {
     }
 
     /**
-     * Tests whether the stack is empty.
-     *
      * @return true if the stack is empty, false otherwise
      */
     @Override
@@ -57,42 +37,40 @@ public class ArrayStack<E> implements Stack<E> {
     }
 
     /**
-     * Inserts an element at the top of the stack.
-     *
      * @param e the element to be inserted
      * @throws IllegalStateException if the array storing the elements is full
      */
     @Override
     public void push(E e) {
-        // TODO
+        if (t > CAPACITY) {
+            throw new IllegalArgumentException("Stack overflow");
+        }
+        data[++t] = e;
     }
 
     /**
-     * Returns, but does not remove, the element at the top of the stack.
-     *
      * @return top element in the stack (or null if empty)
      */
     @Override
     public E top() {
-        // TODO
-        return null;
+        if (isEmpty()) {
+            return null;
+        }
+        return data[t];
     }
 
     /**
-     * Removes and returns the top element from the stack.
-     *
      * @return element removed (or null if empty)
      */
     @Override
     public E pop() {
-        // TODO
-        return null;
+        if (this.isEmpty()) {
+            return null;
+        }
+        return data[t--];
     }
 
     /**
-     * Produces a string representation of the contents of the stack.
-     * (ordered from top to bottom). This exists for debugging purposes only.
-     *
      * @return textual representation of the stack
      */
     public String toString() {
