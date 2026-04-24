@@ -1,6 +1,7 @@
 package project20280.hashtable;
 
 import project20280.interfaces.AbstractMap;
+import project20280.interfaces.Entry;
 
 import java.util.Random;
 
@@ -22,6 +23,8 @@ public abstract class AbstractHashMap<K, V> extends AbstractMap<K, V> {
     private final int prime;                   // prime factor
     private final long scale;
     private final long shift;           // the shift and scaling factors
+    private final int a;
+    private final int b;
     protected int n = 0;                 // number of entries in the dictionary
     protected int capacity;              // length of the table
 
@@ -34,6 +37,8 @@ public abstract class AbstractHashMap<K, V> extends AbstractMap<K, V> {
         Random rand = new Random();
         scale = rand.nextInt(prime - 1) + 1;
         shift = rand.nextInt(prime);
+        a = rand.nextInt(prime);
+        b = rand.nextInt(prime);
         createTable();
     }
 
@@ -83,7 +88,11 @@ public abstract class AbstractHashMap<K, V> extends AbstractMap<K, V> {
      */
     @Override
     public V remove(K key) {
-        return bucketRemove(hashValue(key), key);
+        V tmp = bucketRemove(hashValue(key), key);
+        if (tmp != null) {
+            n--;
+        }
+        return tmp;
     }
 
     /**
@@ -98,8 +107,10 @@ public abstract class AbstractHashMap<K, V> extends AbstractMap<K, V> {
      */
     @Override
     public V put(K key, V value) {
-        // TODO
-        return null;
+        V tmp = bucketPut(hashValue(key), key, value);
+        if (tmp == null) n++;
+        resize(capacity * 2 - 1);
+        return tmp;
     }
 
     // private utilities
@@ -108,15 +119,20 @@ public abstract class AbstractHashMap<K, V> extends AbstractMap<K, V> {
      * Hash function applying MAD method to default hash code.
      */
     private int hashValue(K key) {
-        // TODO
-        return 0;
+        int code = key.hashCode();
+        return Math.abs((((a * code + b) % prime) % capacity));
     }
 
     /**
      * Updates the size of the hash table and rehashes all entries.
      */
     private void resize(int newCap) {
-        // TODO
+        //Load factor of 0.75
+        if (n > (3 * capacity) / 4) {
+            capacity *= 2;
+            Iterable<Entry<K, V>> pairs = this.entrySet();
+            pairs.forEach(pair -> this.put(pair.getKey(), pair.getValue()));
+        }
     }
 
     // protected abstract methods to be implemented by subclasses

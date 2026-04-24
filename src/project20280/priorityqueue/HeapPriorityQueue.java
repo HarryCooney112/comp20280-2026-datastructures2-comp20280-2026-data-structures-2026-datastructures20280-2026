@@ -133,10 +133,11 @@ public class HeapPriorityQueue<K, V> extends AbstractPriorityQueue<K, V> {
         if (right < n && compare(heap.get(right), heap.get(smallest)) < 0) {
             smallest = right;
         }
-        if (smallest != i) {
-            swap(smallest, i);
-            heapifyHelper(n, smallest);
-        }
+        if (smallest == i) { return; }
+
+        swap(smallest, i);
+        heapifyHelper(n, smallest);
+
     }
 
     // public methods

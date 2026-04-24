@@ -8,6 +8,7 @@ public class ProbeHashMap<K, V> extends AbstractHashMap<K, V> {
 
     public ProbeHashMap() {
         super();
+        createTable();
     }
 
     /**
@@ -15,6 +16,7 @@ public class ProbeHashMap<K, V> extends AbstractHashMap<K, V> {
      */
     public ProbeHashMap(int cap) {
         super(cap);
+        createTable();
     }
 
     /**
@@ -30,25 +32,72 @@ public class ProbeHashMap<K, V> extends AbstractHashMap<K, V> {
     }
 
     int findSlot(int h, K k) {
-        // TODO
-        return 0;
+        int i = h;
+        int p = 0;
+        while (p < capacity) {
+            if (table[i % capacity] == DEFUNCT) {
+                return i % capacity;
+            }
+            i++;
+        }
+        return -1;
     }
 
     @Override
     protected V bucketGet(int h, K k) {
-        // TODO
+        int i = h;
+        int p = 0;
+        V tmp;
+        while (p < capacity) {
+            if (table[i].getKey() == null) {
+                return null;
+            } else if (k == table[i].getKey()) {
+                return table[i].getValue();
+            } else {
+                i = (i + 1) % capacity;
+                p++;
+            }
+        }
         return null;
     }
 
     @Override
     protected V bucketPut(int h, K k, V v) {
-        // TODO
+        int i = h;
+        int p = 0;
+        V tmp;
+        while (p < capacity) {
+            if (table[i].getKey() == null) {
+                table[i] = new MapEntry<>(k, v);
+                return null;
+            } else if (k == table[i].getKey()) {
+                tmp = table[i].getValue();
+                table[i].setValue(v);
+                return tmp;
+            } else {
+                i = (i + 1) % capacity;
+                p++;
+            }
+        }
         return null;
     }
 
     @Override
     protected V bucketRemove(int h, K k) {
-        // TODO
+        int i = h;
+        int p = 0;
+        V tmp;
+        while (p < capacity) {
+            if (table[i].getKey() == k) {
+                tmp = table[i].getValue();
+                table[i] = DEFUNCT;
+                return tmp;
+            }
+            else {
+                i = (i + 1) % capacity;
+                p++;
+            }
+        }
         return null;
     }
 
