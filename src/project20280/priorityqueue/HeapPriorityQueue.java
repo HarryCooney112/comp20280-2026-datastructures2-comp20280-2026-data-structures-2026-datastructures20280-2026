@@ -188,7 +188,9 @@ public class HeapPriorityQueue<K, V> extends AbstractPriorityQueue<K, V> {
     @Override
     public Entry<K, V> removeMin() {
         if (heap.isEmpty()) { return null; }
-        Entry<K, V> tmp = heap.removeFirst();
+        Entry<K, V> tmp = min();
+        Entry<K, V> tmpMin = heap.removeLast();
+        heap.set(0, tmpMin);
         heapify();
         return tmp;
     }
