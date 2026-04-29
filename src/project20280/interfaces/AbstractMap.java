@@ -62,7 +62,7 @@ public abstract class AbstractMap<K, V> implements Map<K, V> {
          * Returns string representation (for debugging only)
          */
         public String toString() {
-            //return "<" + k + ", " + v + ">";
+            //return "<" + k + ", " + v + ">"; else if
             return String.valueOf(k);
         }
 

@@ -74,7 +74,7 @@ public abstract class AbstractTree<E> implements Tree<E> {
     @Override
     public int numChildren(Position<E> p) {
         int n = 0;
-        for (Position<E> ch : children(p)) {
+        for (Position<E> _ : children(p)) {
             n++;
         }
         return n;
@@ -87,8 +87,7 @@ public abstract class AbstractTree<E> implements Tree<E> {
      */
     @Override
     public int size() {
-        System.out.println(sizeHelper(root()));
-        return 0;
+        return sizeHelper(root());
     }
 
     public int sizeHelper(Position<E> pos) {

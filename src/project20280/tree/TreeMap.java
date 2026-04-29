@@ -243,8 +243,18 @@ public class TreeMap<K, V> extends AbstractSortedMap<K, V> {
      * @return Position holding key, or last node reached during search
      */
     private Position<Entry<K, V>> treeSearch(Position<Entry<K, V>> p, K key) {
-        // TODO
-        return null;
+        if (root().getElement() == null) {
+            return null;
+        }
+        if (compare(p.getElement().getKey(), key) == 0) {
+            return p;
+        } else if (isExternal(p)) {
+            return p;
+        } else if (compare(left(p).getElement(), key) < 0) {
+            return treeSearch(right(p), key);
+        } else {
+            return treeSearch(left(p), key);
+        }
     }
 
     /**
@@ -254,8 +264,10 @@ public class TreeMap<K, V> extends AbstractSortedMap<K, V> {
      * @return Position with minimal key in subtree
      */
     protected Position<Entry<K, V>> treeMin(Position<Entry<K, V>> p) {
-        // TODO
-        return null;
+        if (left(p) == null) {
+            return p;
+        }
+        return treeMin(p);
     }
 
     /**
@@ -265,8 +277,10 @@ public class TreeMap<K, V> extends AbstractSortedMap<K, V> {
      * @return Position with maximum key in subtree
      */
     protected Position<Entry<K, V>> treeMax(Position<Entry<K, V>> p) {
-        // TODO
-        return null;
+        if (right(p) == null) {
+            return p;
+        }
+        return treeMax(right(p));
     }
 
     /**
@@ -278,8 +292,11 @@ public class TreeMap<K, V> extends AbstractSortedMap<K, V> {
      */
     @Override
     public V get(K key) throws IllegalArgumentException {
-        // TODO
-        return null;
+        Position<Entry<K, V>> tmp = treeSearch(root(), key);
+        if (tmp.getElement().getKey() != key) {
+            return null;
+        }
+        return tmp.getElement().getValue();
     }
 
     /**
@@ -294,8 +311,23 @@ public class TreeMap<K, V> extends AbstractSortedMap<K, V> {
      */
     @Override
     public V put(K key, V value) throws IllegalArgumentException {
-        // TODO
-        return null;
+        checkKey(key);
+        Position<Entry<K, V>> tmp = treeSearch(root(), key);
+        if (tmp == null) {
+            set(root(), new MapEntry<>(key, value));
+            return null;
+        }
+        if (compare(tmp.getElement(), key) == 0) {
+            V tmpVal = tmp.getElement().getValue();
+            set(tmp, new MapEntry<>(key, value));
+            return tmpVal;
+        } else if(compare(tmp.getElement(), key) < 0) {
+            expandExternal(right(tmp), new MapEntry<>(key, value));
+            return null;
+        } else {
+            expandExternal(left(tmp), new MapEntry<>(key, value));
+            return null;
+        }
     }
 
     /**
